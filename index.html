@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -402,6 +402,36 @@
                 gap: 10px;
             }
         }
+
+        .payment-section {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.payment-btn {
+    background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.payment-btn:hover {
+    background: linear-gradient(135deg, #45a049 0%, #4CAF50 100%);
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(72, 239, 128, 0.4);
+}
+
+.payment-btn:active {
+    transform: scale(0.95);
+}
+
     </style>
 </head>
 <body>
@@ -426,11 +456,8 @@
         <p>Where Every Bite Tells a Story</p>
     </div>
 
-    <div class="cart-summary">
-        <div class="cart-title">Your Order</div>
-        <div id="cart-items"></div>
-        <div class="cart-total">Total: Rs.<span id="total-amount">0</span></div>
-    </div>
+    
+
 
     <div class="menu-container">
         <!-- BREAKFAST SECTION -->
@@ -674,6 +701,35 @@ Mumbai, Maharashtra – 400021</p>
         </div>
     </div>
 
+    <div class="cart-summary">
+    <div class="cart-title">Your Order</div>
+    <div id="cart-items"></div>
+    <div class="cart-total">Total: Rs.<span id="total-amount">0</span></div>
+
+    <!-- Payment Section Added -->
+    <div class="payment-section">
+    <label style="color:#ffd700; font-weight:bold;">Select Payment Method:</label><br><br>
+    <select id="payment-method" onchange="toggleUpiSection()" style="padding:8px; border-radius:8px; border:none;">
+        <option value="cod">Cash on Delivery</option>
+        <option value="upi">UPI / Online Payment</option>
+    </select>
+
+    <!-- Hidden UPI details section -->
+    <div id="upi-details" style="display:none; margin-top:15px; text-align:left;">
+        <label style="color:#ffd700;">UPI ID:</label><br>
+        <input type="text" id="upi-id" placeholder="example@upi" style="width:100%; padding:8px; border-radius:8px; margin-bottom:10px;"><br>
+        
+        <label style="color:#ffd700;">Account Holder Name:</label><br>
+        <input type="text" id="upi-name" placeholder="Your Name" style="width:100%; padding:8px; border-radius:8px; margin-bottom:10px;">
+    </div>
+
+    <br>
+    <button class="payment-btn" onclick="placeOrder()">Place Order</button>
+</div>
+
+</div>
+
+
     <div>
         <br>
           <h3 align="right">Name : Pradeep Yedage</h3>
@@ -722,6 +778,64 @@ Mumbai, Maharashtra – 400021</p>
             
             totalAmount.textContent = total;
         }
+
+        function makePayment() {
+    if (total > 0) {
+        alert("Payment successfully");
+    } else {
+        alert("Your cart is empty. Please add items before payment.");
+    }
+}
+
+function placeOrder() {
+    if (total <= 0) {
+        alert("Your cart is empty. Please add items before placing order.");
+        return;
+    }
+
+    const method = document.getElementById("payment-method").value;
+
+    if (method === "cod") {
+        alert("Order placed with Cash on Delivery.");
+    } else if (method === "upi") {
+        alert("Paid successfully! Order placed.");
+    }
+}
+
+function toggleUpiSection() {
+    const method = document.getElementById("payment-method").value;
+    const upiSection = document.getElementById("upi-details");
+    if (method === "upi") {
+        upiSection.style.display = "block";
+    } else {
+        upiSection.style.display = "none";
+    }
+}
+
+function placeOrder() {
+    if (total <= 0) {
+        alert("Your cart is empty. Please add items before placing order.");
+        return;
+    }
+
+    const method = document.getElementById("payment-method").value;
+
+    if (method === "cod") {
+        alert("Order placed with Cash on Delivery.");
+    } else if (method === "upi") {
+        const upiId = document.getElementById("upi-id").value.trim();
+        const upiName = document.getElementById("upi-name").value.trim();
+
+        if (upiId === "" || upiName === "") {
+            alert("Please enter valid UPI details before proceeding.");
+            return;
+        }
+
+        alert(`Payment successful via UPI!\nUPI ID: ${upiId}\nName: ${upiName}\nOrder placed successfully.`);
+    }
+}
+
+
     </script>
 </body>
 </html>
